@@ -2,13 +2,15 @@
 //  CharactersStoreMOK.swift
 //  MarvelList
 //
-//  Created by resource on 25/01/20.
+//  Created by Leo Valentim on 25/01/20.
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
 import Foundation
 
 class CharactersStoreMOK: CharactersStore {
+    
+    private let charactersLocal = ("charactersLocal", "json")
     
     func fetchCharacters(completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
         guard let jsonData = loadLocalCharactersJson() else {
@@ -27,7 +29,7 @@ class CharactersStoreMOK: CharactersStore {
     }
     
     func loadLocalCharactersJson() -> Data? {
-        guard let path = Bundle.main.path(forResource: "charactersLocal", ofType: "json"),
+        guard let path = Bundle.main.path(forResource: charactersLocal.0, ofType: charactersLocal.1),
             let data = try? Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe) else {
             return nil
         }

@@ -2,7 +2,7 @@
 //  String+extension.swift
 //  MarvelList
 //
-//  Created by resource on 25/01/20.
+//  Created by Leo Valentim on 25/01/20.
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
@@ -12,6 +12,10 @@ import func CommonCrypto.CC_MD5
 import typealias CommonCrypto.CC_LONG
 
 extension String {
+    static var typeName: String {
+        return String(describing: self)
+    }
+    
     func toMD5() -> String? {
         guard let messageData = self.data(using:.utf8) else {return nil}
         let length = Int(CC_MD5_DIGEST_LENGTH)

@@ -2,7 +2,7 @@
 //  ListCharactersInteractorTests.swift
 //  MarvelListTests
 //
-//  Created by resource on 25/01/20.
+//  Created by Leo Valentim on 25/01/20.
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
@@ -17,7 +17,7 @@ class ListCharactersInteractorTests: XCTestCase {
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        interactor = nil
     }
 
     func testFetchCharacters() {
@@ -31,16 +31,4 @@ class ListCharactersInteractorTests: XCTestCase {
         XCTAssert(presenter.didFetchCharacters)
     }
 
-}
-
-extension ListCharactersInteractorTests {
-    class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic {
-        var didFetchCharacters: Bool = false
-        
-        func presentCharacters(characters: [Character]?) {
-            didFetchCharacters = characters?.isEmpty == false
-        }
-        
-        func didFailure(_ error: Error) {}
-    }
 }

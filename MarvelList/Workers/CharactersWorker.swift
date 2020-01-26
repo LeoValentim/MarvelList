@@ -2,7 +2,7 @@
 //  CharactersWorker.swift
 //  MarvelList
 //
-//  Created by resource on 25/01/20.
+//  Created by Leo Valentim on 25/01/20.
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
