@@ -10,8 +10,24 @@ import Foundation
 import XCTest
 @testable import MarvelList
 
-class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic {
+// MARK: - Output
+class ListCharactersOutputSpy: ListCharactersOutput {
+    var callDidFecthCharacters: Bool = false
+    
+    func didFetchCharacters() {
+        callDidFecthCharacters = true
+    }
+    
+    func didFailure(_ error: Error) {}
+}
+
+// MARK: - Presentation logic
+class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic, ListCharactersDisplayedDataStore {
+    var characters: [ListCharactersEntity.ViewModel] = []
+    var topCharacters: [ListCharactersEntity.ViewModel] = []
     var didFetchCharacters: Bool = false
+    
+    weak var view: ListCharactersOutput?
     
     func presentCharacters(characters: [Character]?) {
         didFetchCharacters = characters?.isEmpty == false
@@ -20,31 +36,28 @@ class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic {
     func didFailure(_ error: Error) {}
 }
 
-
-class ListCharactersBusinessLogicSpy: ListCharactersBusinessLogic
-{
+// MARK: - Business logic
+class ListCharactersBusinessLogicSpy: ListCharactersBusinessLogic, ListCharactersDataStore {
+    var characters: [Character]?
     let presenter: ListCharactersPresentationLogic
+    
+    var didCallFetchCharacters: Bool = false
     
     init(presenter: ListCharactersPresentationLogic) {
         self.presenter = presenter
     }
     
     func fetchCharacters() {
-        presenter.presentCharacters(characters: [])
+        didCallFetchCharacters = true
+        presenter.presentCharacters(characters: characters ?? [])
     }
 }
 
-
-class TableViewSpy: UITableView
-{
-    // MARK: Method call expectations
-    
+// MARK: - Collection View
+class CollectionViewSpy: UICollectionView {
     var reloadDataCalled = false
     
-    // MARK: Spied methods
-    
-    override func reloadData()
-    {
+    override func reloadData() {
         reloadDataCalled = true
     }
 }
