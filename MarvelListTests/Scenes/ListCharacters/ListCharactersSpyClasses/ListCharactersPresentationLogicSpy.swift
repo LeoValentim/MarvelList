@@ -29,8 +29,8 @@ class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic, ListC
     
     weak var view: ListCharactersOutput?
     
-    func presentCharacters(characters: [Character]?) {
-        didFetchCharacters = characters?.isEmpty == false
+    func presentCharacters(characters: [Character]) {
+        didFetchCharacters = !characters.isEmpty
     }
     
     func didFailure(_ error: Error) {}
@@ -38,7 +38,7 @@ class ListCharactersPresentationLogicSpy: ListCharactersPresentationLogic, ListC
 
 // MARK: - Business logic
 class ListCharactersBusinessLogicSpy: ListCharactersBusinessLogic, ListCharactersDataStore {
-    var characters: [Character]?
+    var characters: [Character] = []
     let presenter: ListCharactersPresentationLogic
     
     var didCallFetchCharacters: Bool = false
@@ -49,7 +49,7 @@ class ListCharactersBusinessLogicSpy: ListCharactersBusinessLogic, ListCharacter
     
     func fetchCharacters() {
         didCallFetchCharacters = true
-        presenter.presentCharacters(characters: characters ?? [])
+        presenter.presentCharacters(characters: characters)
     }
 }
 

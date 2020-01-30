@@ -16,7 +16,7 @@ class ListCharactersViewControllerTests: XCTestCase {
 
     override func setUp() {
         window = UIWindow()
-        viewController = ListCharactersRouter.createModule()
+        viewController = ListCharactersRouter.createScene()
     }
 
     override func tearDown() {
