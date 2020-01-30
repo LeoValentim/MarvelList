@@ -12,6 +12,8 @@ class TopListCharacterCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: CustomImageView!
     @IBOutlet weak var name: UILabel!
+    
+    var model: ListCharactersEntity.ViewModel?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +26,7 @@ class TopListCharacterCell: UICollectionViewCell {
     }
     
     func setModel(_ model: ListCharactersEntity.ViewModel) {
+        self.model = model
         name.text = model.name
         if let url = URL(string: model.imageURL) {
             imageView.loadAndCacheImage(from: url)

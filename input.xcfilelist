@@ -1,1 +1,2 @@
 $(SRCROOT)/Carthage/Build/iOS/UIScrollView_InfiniteScroll.framework
+$(SRCROOT)/Carthage/Build/iOS/Hero.framework

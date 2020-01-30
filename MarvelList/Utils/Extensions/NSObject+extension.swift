@@ -9,7 +9,10 @@
 import Foundation
 
 extension NSObject {
+    
+    /// Returns the class name of current object as String
     static var typeName: String {
         return String(describing: self)
     }
+    
 }

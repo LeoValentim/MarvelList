@@ -8,13 +8,20 @@
 
 import Foundation
 
+// MARK: - Data store
+protocol ListCharactersDataStore: class {
+    var characters: [Character] {get}
+}
+
 // MARK: - Interactor
-class ListCharactersInteractor {
+class ListCharactersInteractor: ListCharactersDataStore {
     
     let worker: CharactersWorker
     let presenter: ListCharactersPresentationLogic
     
-    var characters: [Character]?
+    var characters: [Character] = []
+    var currentPage: Int = 0
+    let limitPageCharacters: Int = 20
     
     init(worker: CharactersWorker, presenter: ListCharactersPresentationLogic) {
         self.worker = worker
@@ -29,10 +36,15 @@ protocol ListCharactersBusinessLogic: class {
 }
 extension ListCharactersInteractor: ListCharactersBusinessLogic {
     func fetchCharacters() {
-        worker.fetchCharacters { [weak self] result in
+        worker.fetchCharacters(limit: limitPageCharacters, offset: limitPageCharacters * currentPage) { [weak self] result in
             switch result {
                 case .success(let response):
-                    let characters = response.data?.results
+                    self?.currentPage += 1
+                    
+                    var characters = self?.characters ?? []
+                    let newCharacters = response.data?.results ?? []
+                    characters += newCharacters
+                    
                     self?.characters = characters
                     self?.presenter.presentCharacters(characters: characters)
                 case .failure(let error):

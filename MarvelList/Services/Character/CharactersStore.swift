@@ -9,5 +9,5 @@
 import Foundation
 
 protocol CharactersStore {
-    func fetchCharacters(completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void)
+    func fetchCharacters(limit: Int, offset: Int, completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void)
 }

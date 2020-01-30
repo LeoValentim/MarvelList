@@ -10,6 +10,7 @@ import UIKit
 
 let imageCache = NSCache<NSString, UIImage>()
 
+/// Custom image view with async image load and cache.
 class CustomImageView: UIImageView {
     
     lazy var activityIndicator: UIActivityIndicatorView = {
@@ -36,12 +37,20 @@ class CustomImageView: UIImageView {
         activityIndicator.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
+    /// Load image from cache or url string and cache it if necessary.
+    /// - Parameters:
+    ///   - urlString: url as String
+    ///   - completion: completion handler
     func loadAndCacheImage(from urlString: String, completion: (() -> Void)? = nil) {
         if let url = URL(string: urlString) {
             loadAndCacheImage(from: url, completion: completion)
         }
     }
     
+    /// Load image from cache or URL and cache it if necessary.
+    /// - Parameters:
+    ///   - url: URL
+    ///   - completion: completion handler
     func loadAndCacheImage(from url: URL, completion: (() -> Void)? = nil) {
         let urlString = url.absoluteString
         imageUrlString = urlString

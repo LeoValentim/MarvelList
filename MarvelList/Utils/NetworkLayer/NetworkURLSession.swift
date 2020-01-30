@@ -8,12 +8,19 @@
 
 import Foundation
 
+/// URLSession class that conforms to Network layer protocol
 class NetworkURLSession: NetworkLayer {
     func generateRequest(url: URL) -> URLRequest {
         let resquest = URLRequest(url: url)
         return resquest
     }
     
+    /// GET Request that returns Data
+    ///
+    /// - Parameters:
+    ///   - url: URL
+    ///   - headers: Http Header
+    ///   - completion: Result Data
     func get(_ url: URL, headers: [String : String]?, completion: @escaping (Result<Data, Error>) -> Void) {
         guard isConnectedToInternet else {
             let error = NetworkError.noInternetConnection
@@ -44,6 +51,13 @@ class NetworkURLSession: NetworkLayer {
         }).resume()
     }
     
+    /// GET Request that returns codable generics type
+    ///
+    /// - Parameters:
+    ///   - url: URL
+    ///   - model: Type that will be decoded
+    ///   - headers: Http Header
+    ///   - completion: Result Data
     func get<T: Codable>(_ url: URL, model: T.Type, headers: [String : String]?, completion: @escaping (Result<T, Error>) -> Void) {
         get(url, headers: headers) { result in
             switch result {
@@ -60,6 +74,13 @@ class NetworkURLSession: NetworkLayer {
         }
     }
     
+    /// POST Request that returns Data
+    ///
+    /// - Parameters:
+    ///   - url: URL
+    ///   - params: Http body
+    ///   - headers: Http Header
+    ///   - completion: Result Data
     func post(_ url: URL, params: [String : Any], headers: [String : String]?, completion: @escaping (Result<Data, Error>) -> Void) {
         guard isConnectedToInternet else {
             let error = NetworkError.noInternetConnection
@@ -91,6 +112,14 @@ class NetworkURLSession: NetworkLayer {
         }).resume()
     }
     
+    /// POST Request that returns Data
+    ///
+    /// - Parameters:
+    ///   - url: URL
+    ///   - model: Type that will be decoded
+    ///   - params: Http body
+    ///   - headers: Http Header
+    ///   - completion: Result Data
     func post<T: Codable>(_ url: URL, model: T.Type, params: [String : Any], headers: [String : String]?, completion: @escaping (Result<T, Error>) -> Void) {
         post(url, params: params, headers: headers) { result in
             switch result {

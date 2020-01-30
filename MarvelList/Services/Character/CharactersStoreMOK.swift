@@ -8,11 +8,12 @@
 
 import Foundation
 
+/// Class that loads characters from local storage.
 class CharactersStoreMOK: CharactersStore {
     
     private let charactersLocal = ("charactersLocal", "json")
     
-    func fetchCharacters(completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
+    func fetchCharacters(limit: Int, offset: Int, completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
         guard let jsonData = loadLocalCharactersJson() else {
             let error = NSError(domain: "Error", code: 0, userInfo: nil)
             completion(.failure(error))

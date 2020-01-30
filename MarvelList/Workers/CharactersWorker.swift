@@ -16,8 +16,8 @@ class CharactersWorker {
         self.store = store
     }
     
-    func fetchCharacters(completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
-        store.fetchCharacters(completion: completion)
+    func fetchCharacters(limit: Int, offset: Int, completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
+        store.fetchCharacters(limit: limit, offset: offset, completion: completion)
     }
     
 }

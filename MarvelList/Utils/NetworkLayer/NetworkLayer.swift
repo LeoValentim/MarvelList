@@ -15,6 +15,7 @@ enum NetworkError: Error {
     case serverError(String?)
 }
 
+/// Protocol that defines how to work with http requests in the project. It helps to use different Networking Libraries.
 protocol NetworkLayer {
     typealias NetworkResult<T> = Result<T, Error>
     typealias TryAgainAction = (() -> Void)?

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
+import Hero
 import UIKit
 import UIScrollView_InfiniteScroll
 
@@ -20,7 +21,8 @@ class ListCharactersViewController: UIViewController {
     }()
     
     var interactor: ListCharactersBusinessLogic?
-    weak var dataStore: ListCharactersDataStore?
+    var routeNavigation: ListCharactersNavigation?
+    weak var dataStore: ListCharactersDisplayedDataStore?
 
 }
 
@@ -28,24 +30,13 @@ class ListCharactersViewController: UIViewController {
 extension ListCharactersViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLogic()
         setupViews()
+        interactor?.fetchCharacters()
     }
 }
 
 // MARK: - Setup views
 extension ListCharactersViewController {
-    func setupLogic() {
-        let networkLayer = NetworkURLSession()
-        let store = CharactersStoreRemote(networkLayer: networkLayer)
-        let worker = CharactersWorker(store: store)
-        let presenter = ListCharactersPresenter(view: self)
-        interactor = ListCharactersInteractor(worker: worker, presenter: presenter)
-        dataStore = presenter
-        
-        interactor?.fetchCharacters()
-    }
-    
     func setupViews() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -85,12 +76,15 @@ extension ListCharactersViewController: UICollectionViewDelegate, UICollectionVi
             case 0:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopListCharactersViewCell.typeName, for: indexPath) as? TopListCharactersViewCell else {return UICollectionViewCell()}
                 cell.setDataStore(dataStore: dataStore)
+                cell.didSelect = routeNavigation?.goToDetails(characterAt:heroId:)
                 return cell
             
             case 1:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopListCharacterCell.typeName, for: indexPath) as? TopListCharacterCell,
                     let model = dataStore?.characters[indexPath.row]
                     else {return UICollectionViewCell()}
+                let heroId = "cell:1:\(indexPath.row)"
+                cell.hero.id = heroId
                 cell.setModel(model)
                 return cell
             
@@ -106,6 +100,16 @@ extension ListCharactersViewController: UICollectionViewDelegate, UICollectionVi
                 let width = UIScreen.main.bounds.width / 3
                 return CGSize(width: width,
                                    height: width / 0.68)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+            case 1:
+                guard let cell = collectionView.cellForItem(at: indexPath) as? TopListCharacterCell else {return}
+                let index = indexPath.row + 5
+                routeNavigation?.goToDetails(characterAt: index, heroId: cell.hero.id)
+            default: break
         }
     }
 }

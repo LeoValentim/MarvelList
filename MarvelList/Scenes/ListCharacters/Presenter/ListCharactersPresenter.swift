@@ -10,7 +10,7 @@ import Foundation
 
 
 // MARK: - Presenter
-class ListCharactersPresenter: ListCharactersDataStore {
+class ListCharactersPresenter: ListCharactersDisplayedDataStore {
     weak var view: ListCharactersOutput?
     
     var characters: [ListCharactersEntity.ViewModel] = []
@@ -21,19 +21,19 @@ class ListCharactersPresenter: ListCharactersDataStore {
     }
 }
 
-// MARK: - Data store
-protocol ListCharactersDataStore: class {
+// MARK: - Displayed data store
+protocol ListCharactersDisplayedDataStore: class {
     var characters: [ListCharactersEntity.ViewModel] {get}
     var topCharacters: [ListCharactersEntity.ViewModel] {get}
 }
 // MARK: - Presentation Logic
 protocol ListCharactersPresentationLogic: class {
-    func presentCharacters(characters: [Character]?)
+    func presentCharacters(characters: [Character])
     func didFailure(_ error: Error)
 }
 extension ListCharactersPresenter: ListCharactersPresentationLogic {
-    func presentCharacters(characters: [Character]?) {
-        let viewModels = characters?.compactMap { ListCharactersEntity.ViewModel(from: $0) } ?? []
+    func presentCharacters(characters: [Character]) {
+        let viewModels = characters.compactMap { ListCharactersEntity.ViewModel(from: $0) }
         let limitTopArray = 5
         
         if viewModels.count > limitTopArray {

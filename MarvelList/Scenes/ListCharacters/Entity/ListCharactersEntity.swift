@@ -11,15 +11,20 @@ import Foundation
 struct ListCharactersEntity {
     struct ViewModel {
         let name: String
+        let description: String
         let imageURL: String
         
-        init(name: String, imageURL: String) {
+        var heroId: String?
+        
+        init(name: String, description: String, imageURL: String) {
             self.name = name
+            self.description = description
             self.imageURL = imageURL
         }
         
         init(from model: Character) {
             name = model.name ?? ""
+            description = model.resultDescription ?? ""
             if let path = model.thumbnail?.path, let thumbnailExtension = model.thumbnail?.thumbnailExtension {
                 imageURL = "\(path).\(thumbnailExtension)"
             } else {

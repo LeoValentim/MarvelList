@@ -12,7 +12,8 @@ class TopListCharactersViewCell: UICollectionViewCell {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private weak var dataStore: ListCharactersDataStore?
+    var didSelect: ((Int, String?) -> Void)?
+    private weak var dataStore: ListCharactersDisplayedDataStore?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +40,7 @@ extension TopListCharactersViewCell {
         collectionView.reloadData()
     }
     
-    func setDataStore(dataStore: ListCharactersDataStore?) {
+    func setDataStore(dataStore: ListCharactersDisplayedDataStore?) {
         self.dataStore = dataStore
         collectionView.reloadData()
     }
@@ -55,7 +56,14 @@ extension TopListCharactersViewCell: UICollectionViewDelegate, UICollectionViewD
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopListCharacterCell.typeName, for: indexPath) as? TopListCharacterCell,
             let model = dataStore?.topCharacters[indexPath.row]
             else {return UICollectionViewCell()}
+        let heroId = "cell:0:\(indexPath.row)"
+        cell.hero.id = heroId
         cell.setModel(model)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TopListCharacterCell else {return}
+        didSelect?(indexPath.row, cell.hero.id)
     }
 }

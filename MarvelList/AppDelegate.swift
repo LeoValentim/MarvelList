@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let viewController = ListCharactersViewController(nibName: ListCharactersViewController.typeName, bundle: Bundle.main)
+        let viewController = ListCharactersRouter.createScene()
         let navigation = UINavigationController()
         navigation.viewControllers = [viewController]
         window?.rootViewController = navigation

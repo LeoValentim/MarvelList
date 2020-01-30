@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class that uses the network to fetch characters from remote storage.
 class CharactersStoreRemote: CharactersStore {
     
     var networkLayer: NetworkLayer
@@ -16,8 +17,8 @@ class CharactersStoreRemote: CharactersStore {
         self.networkLayer = networkLayer
     }
     
-    func fetchCharacters(completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
-        guard let url = URL(string: MarvelAPI.Endpoint.characters) else {
+    func fetchCharacters(limit: Int, offset: Int, completion: @escaping (Result<BaseResponse<CharacterData>, Error>) -> Void) {
+        guard let url = URL(string: MarvelAPI.Endpoint.characters + "&limit=\(limit)&offset=\(offset)") else {
             completion(.failure(NetworkError.badURL))
             return
         }

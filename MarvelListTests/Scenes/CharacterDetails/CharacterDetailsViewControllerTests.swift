@@ -2,7 +2,7 @@
 //  CharacterDetailsViewControllerTests.swift
 //  MarvelListTests
 //
-//  Created by resource on 29/01/20.
+//  Created by Leo Valentim on 29/01/20.
 //  Copyright © 2020 Leo Valentim. All rights reserved.
 //
 
